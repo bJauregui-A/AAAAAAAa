@@ -7,7 +7,7 @@ WORKDIR /app
 # Instala wget (muy liviano)
 # Descarga directa del diccionario rockyou.txt
 RUN wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
-RUN pip install requests
+RUN pip install requests --no-cache-dir requests python-anticaptcha
 # Copia tu script Python
 COPY g.py .
 
