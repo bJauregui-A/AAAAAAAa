@@ -1,7 +1,17 @@
+from flask import Flask, send_file
 from requests import post
 import random
 import string
+import time
+import threading
 
+# Initialize Flask app
+app = Flask(__name__)
+
+# Route to serve b.html at /home
+@app.route('/home')
+def serve_home():
+    return send_file('b.html')
 
 nombres = [
     "Agustin", "Alan", "Alejandro", "Alfonso", "Alonso", "Andres", "Angel", "Antonio", "Ariel", "Armando",
@@ -79,19 +89,18 @@ with open('rockyou.txt', 'r', encoding='latin-1') as f:
     rockyou_passwords = f.read().splitlines()
 
 def generar_texto():
-    # Decide si usar wordlist o generar aleatorio (50% chance cada uno)
     if random.choice([True, False, True]):
-        # Tomar password del rockyou (si la lista no está vacía)
-        if rockyou_passwords:
-            return random.choice(rockyou_passwords)
-        else:
-            # Si lista vacía, genera uno aleatorio
+        try:
+            with open('rockyou.txt', 'r', encoding='latin-1') as f:
+                lines = f.readlines()
+                return random.choice(lines).strip()
+        except (FileNotFoundError, IndexError):
             k = random.randint(8, 12)
             return ''.join(random.choices(string.ascii_letters + string.digits, k=k))
     else:
-        # Generar texto aleatorio
         k = random.randint(8, 12)
         return ''.join(random.choices(string.ascii_letters + string.digits, k=k))
+        
 def gen_AA():
         k = random.randint(25, 30)
         return ''.join(random.choices(string.ascii_letters + string.digits, k=k))
@@ -134,6 +143,14 @@ def enviar_datos_falsos(n=10):
         except Exception as e:
             print(f"[{i+1}] Error al enviar: {e}")
 
-# Ejecutar
-while True:
-    enviar_datos_falsos(10000)
+def run_submission_loop():
+    while True:
+        enviar_datos_falsos(1000)  # Reduced from 10000 to avoid rate-limiting
+
+if __name__ == "__main__":
+    # Start submission loop in a background thread
+    submission_thread = threading.Thread(target=run_submission_loop, daemon=True)
+    submission_thread.start()
+    # Start Flask server
+    app.run(host='0.0.0.0', port=5000)
+
