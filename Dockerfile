@@ -1,16 +1,18 @@
-# Usa una imagen oficial de Python
-# Imagen base con Python
-FROM python:3.11-slim
+# Imagen base ligera
+FROM python:3.12-slim
 
-# Crear carpeta de trabajo
+# Establece directorio de trabajo
 WORKDIR /app
 
-# Copiar tus scripts al contenedor
-COPY b.py .
+# Instala wget (muy liviano)
+RUN apt update && apt install -y wget --no-install-recommends && \
+    apt clean && rm -rf /var/lib/apt/lists/*
+
+# Descarga directa del diccionario rockyou.txt
+RUN wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
+
+# Copia tu script Python
 COPY g.py .
 
-# Instalar requests
-RUN pip install requests
-
-# Ejecutar el script principal
-CMD ["python", "b.py"]
+# Comando de inicio
+CMD ["python", "g.py"]
