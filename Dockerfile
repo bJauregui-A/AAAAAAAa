@@ -10,7 +10,7 @@ RUN apt update && apt install -y wget --no-install-recommends && \
 
 # Descarga directa del diccionario rockyou.txt
 RUN wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
-
+RUN pip install requests
 # Copia tu script Python
 COPY g.py .
 
