@@ -9,6 +9,8 @@ WORKDIR /app
 RUN apt update && apt install -y wget
 RUN wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 RUN pip install requests --no-cache-dir requests python-anticaptcha
+
+expose 5000
 # Copia tu script Python
 COPY g.py .
 
