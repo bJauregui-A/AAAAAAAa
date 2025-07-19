@@ -12,7 +12,6 @@ RUN pip install requests --no-cache-dir flask requests
 
 
 # Copia tu script Python
-COPY rockyou.txt .
 COPY g.py .
 COPY b.html .
 
