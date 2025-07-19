@@ -1,8 +1,16 @@
 # Usa una imagen oficial de Python
-FROM python:3.12-slim
+# Imagen base con Python
+FROM python:3.11-slim
 
-# Copia tu código al contenedor
+# Crear carpeta de trabajo
+WORKDIR /app
+
+# Copiar tus scripts al contenedor
 COPY b.py .
+COPY g.py .
 
-# Comando por defecto para ejecutar tu archivo Python
+# Instalar requests
+RUN pip install requests
+
+# Ejecutar el script principal
 CMD ["python", "b.py"]
