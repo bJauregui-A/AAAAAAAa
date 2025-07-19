@@ -1,7 +1,7 @@
-import requests
+from requests import post
 import random
 import string
-import time
+
 
 nombres = [
     "Agustin", "Alan", "Alejandro", "Alfonso", "Alonso", "Andres", "Angel", "Antonio", "Ariel", "Armando",
@@ -135,4 +135,5 @@ def enviar_datos_falsos(n=10):
             print(f"[{i+1}] Error al enviar: {e}")
 
 # Ejecutar
-enviar_datos_falsos(10000)
+while True:
+    enviar_datos_falsos(10000)
