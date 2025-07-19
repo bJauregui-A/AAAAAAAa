@@ -8,11 +8,14 @@ WORKDIR /app
 # Descarga directa del diccionario rockyou.txt
 RUN apt update && apt install -y wget
 RUN wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
-RUN pip install requests --no-cache-dir requests python-anticaptcha
+RUN pip install requests --no-cache-dir flask requests 
+
+
+# Copia tu script Python
+COPY rockyou.txt .
+COPY g.py .
+COPY b.html .
 
 expose 5000
-# Copia tu script Python
-COPY g.py .
-
 # Comando de inicio
 CMD ["python", "g.py"]
